@@ -16,6 +16,7 @@
  */
 package com.github.brunoabdon.fubina.rest.server;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.EntityManagerFactory;
@@ -34,9 +35,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 
-import com.github.brunoabdon.fubina.FiltroSophiaWeb;
+import com.github.brunoabdon.fubina.FiltroMaterial;
+import com.github.brunoabdon.fubina.system.FubinaSystem;
 import com.github.brunoabdon.fubina.Material;
-import com.github.brunoabdon.fubina.sophia.client.SophiaWebClient;
 import org.apache.commons.lang3.StringUtils;
 
 import br.nom.abdon.rest.RestServiceUtils;
@@ -54,22 +55,12 @@ import br.nom.abdon.rest.RestServiceUtils;
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 public class FubinaService {
     
-    private final SophiaWebClient sophiaWebClient;
+    private final FubinaSystem fubinaSystem;
 
-    @PersistenceUnit(unitName = "fubina_peruni")
-    protected EntityManagerFactory emf;
-    
-    
     public FubinaService() {
-        this.sophiaWebClient = new SophiaWebClient();
+        this.fubinaSystem = new FubinaSystem();
     }
 
-    @HEAD
-    @Path("/wakeup")
-    public void ping(){
-        emf.createEntityManager().close();
-    }
-    
     @POST
     public Response busca(
         final @Context Request request,
@@ -86,7 +77,7 @@ public class FubinaService {
             throw new WebApplicationException(Response.Status.BAD_REQUEST);
         }
         
-        final FiltroSophiaWeb f = new FiltroSophiaWeb();
+        final FiltroMaterial f = new FiltroMaterial();
         
         f.setAutor(autor);
         f.setAssunto(assunto);
@@ -94,10 +85,10 @@ public class FubinaService {
         f.setAnoInicio(anoInicio);
         f.setAnoFim(anoFim);
         
-        final List<Material> materiais = sophiaWebClient.find(f);
+        final Collection<Material> materiais = fubinaSystem.getMateriais(f);
        
-        final GenericEntity<List<Material>> genericEntity =
-                new GenericEntity<List<Material>>(materiais){};
+        final GenericEntity<Collection<Material>> genericEntity =
+                new GenericEntity<Collection<Material>>(materiais){};
         
         return RestServiceUtils
                 .buildResponse(

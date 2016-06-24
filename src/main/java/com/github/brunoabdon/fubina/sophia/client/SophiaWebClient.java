@@ -16,13 +16,14 @@
  */
 package com.github.brunoabdon.fubina.sophia.client;
 
-import java.util.List;
+
+import java.util.Collection;
 
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.github.brunoabdon.fubina.FiltroSophiaWeb;
+import com.github.brunoabdon.fubina.FiltroMaterial;
 import com.github.brunoabdon.fubina.Material;
 import pl.touk.throwing.ThrowingFunction;
 
@@ -37,9 +38,8 @@ public class SophiaWebClient extends AbstractRestClient<Exception>{
 
     private static final String TARGET_URL = 
         "http://acervo.bn.br/sophia_web/asp/resultadoFrame.asp?modo_busca=combinada&content=resultado";
-
     
-    private static ThrowingFunction<
+    private static final ThrowingFunction<
                         RESTResponseException,
                         Response,
                         Exception> EXCEPTION_DEALER =
@@ -51,8 +51,6 @@ public class SophiaWebClient extends AbstractRestClient<Exception>{
             throw new Exception(e);
         };
     
-    
-    
     public SophiaWebClient() {
         super(
             MediaType.APPLICATION_FORM_URLENCODED_TYPE, 
@@ -60,10 +58,13 @@ public class SophiaWebClient extends AbstractRestClient<Exception>{
             EXCEPTION_DEALER);
     }
 
-    public List<Material> find(FiltroSophiaWeb f) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+    public Collection<Integer> getCodigosObras(final FiltroMaterial f){
+        return null;
     }
     
-
+    public Material getMaterial(final int codigoObra){
+        return null;
+    }
     
 }

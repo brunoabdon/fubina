@@ -20,7 +20,7 @@ package com.github.brunoabdon.fubina;
  *
  * @author Bruno Abdon
  */
-public class FiltroSophiaWeb {
+public class FiltroMaterial {
     private String autor, titulo, assunto;
     private Integer anoInicio , anoFim;
 
