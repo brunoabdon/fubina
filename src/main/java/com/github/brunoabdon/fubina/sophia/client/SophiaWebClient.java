@@ -17,53 +17,53 @@
 package com.github.brunoabdon.fubina.sophia.client;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
-
-import javax.ws.rs.NotFoundException;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import com.github.brunoabdon.fubina.FiltroMaterial;
 import com.github.brunoabdon.fubina.Material;
-import pl.touk.throwing.ThrowingFunction;
-
-import br.nom.abdon.rest.AbstractRestClient;
-import br.nom.abdon.rest.RESTResponseException;
 
 /**
  *
  * @author Bruno Abdon
  */
-public class SophiaWebClient extends AbstractRestClient<Exception>{
+public class SophiaWebClient {
 
     private static final String TARGET_URL = 
         "http://acervo.bn.br/sophia_web/asp/resultadoFrame.asp?modo_busca=combinada&content=resultado";
     
-    private static final ThrowingFunction<
-                        RESTResponseException,
-                        Response,
-                        Exception> EXCEPTION_DEALER =
-        e -> {
-            if(e.getStatusInfo().getStatusCode() 
-                == Response.Status.NOT_FOUND.getStatusCode()){
-                throw new NotFoundException(e);
-            }
-            throw new Exception(e);
-        };
-    
-    public SophiaWebClient() {
-        super(
-            MediaType.APPLICATION_FORM_URLENCODED_TYPE, 
-            MediaType.APPLICATION_JSON_TYPE, 
-            EXCEPTION_DEALER);
-    }
-
-
     public Collection<Integer> getCodigosObras(final FiltroMaterial f){
-        return null;
+        
+        final Collection<Integer> codigosObras = new ArrayList<>();
+        
+      
+        //ver como fazer sobre paginacao
+        //a pagina de busca ja tem todos os ids. nao precisa navegar
+        //mas tem um limite maximo de 1000 resultados (em 84 paginas)
+        
+        //monta body
+        //posta
+        //pega stream
+        //faz um sacaner :  //Scanner s = new Scanner(stream);
+        //pra cada match: String nextMatch = s.findWithinHorizon(yourPattern, 0);
+            //extrai o codigo da obra*
+            //salva na lista de codigos
+        //verifica se teve 1000 elementos (ve um texto de aviso na pag)
+          //se sim, é ruim faltou gente
+          //se nao, tá completo
+          
+          //* assim que e extrai: nessas linhas no topo:
+          
+            //parent.hiddenFrame.vetor_pag[1].push('[1]528447.1, 529550.1, 532981.1, 465040.1, 355065.1, 526245.1, 488161.1, 421818.1, 534976.1, 519362.1, 396578.1, 445345.1');
+            //                                       ^ ^         ^         ^ 
+            //                                     pag mat1      mat2      mat3 ... sem os ".1"
+        
+        
+        return codigosObras;
+
     }
     
-    public Material getMaterial(final int codigoObra){
+    public Material getMaterial(final Integer codigoObra){
         return null;
     }
     
